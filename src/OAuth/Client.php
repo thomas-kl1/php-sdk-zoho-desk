@@ -7,11 +7,10 @@ declare(strict_types=1);
 
 namespace Zoho\Desk\OAuth;
 
-use zcrmsdk\crm\exception\ZCRMException;
-use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
 use zcrmsdk\crm\utility\APIConstants;
-use zcrmsdk\crm\utility\ZCRMConfigUtil;
 use zcrmsdk\oauth\exception\ZohoOAuthException;
+use zcrmsdk\oauth\ZohoOAuth;
+use zcrmsdk\oauth\ZohoOAuthClient;
 use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Client\ConfigProviderInterface;
 use Zoho\Desk\Exception\Exception;
@@ -53,8 +52,10 @@ final class Client implements ClientInterface
     {
         try {
             $this->configure();
-            $accessToken = ZCRMConfigUtil::getAccessToken();
-        } catch (ZCRMException | ZohoOAuthException $e) {
+            /** @var ZohoOAuthClient $oauthClient */
+            $oauthClient = ZohoOAuth::getClientInstance();
+            $accessToken = $oauthClient->getAccessToken($this->configProvider->get()[APIConstants::CURRENT_USER_EMAIL]);
+        } catch (ZohoOAuthException $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -69,7 +70,7 @@ final class Client implements ClientInterface
     private function configure(): void
     {
         if (!$this->isConfigured) {
-            ZCRMRestClient::initialize($this->configProvider->get());
+            ZohoOAuth::initialize($this->configProvider->get());
             $this->isConfigured = true;
         }
     }
