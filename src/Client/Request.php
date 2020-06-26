@@ -12,6 +12,7 @@ use function curl_errno;
 use function curl_error;
 use function curl_exec;
 use function curl_getinfo;
+use function is_array;
 use function json_decode;
 use function mb_substr;
 use function rtrim;
@@ -58,12 +59,16 @@ final class Request implements RequestInterface
     {
         $message = 'An error occurred on the API gateway.';
 
-        if (isset($body['message'], $body['errors'])) {
-            $message = $body['message'] . ': ';
-            foreach ($body['errors'] as $error) {
-                $message .= $error['fieldName'] . ' is ' . $error['errorType'] . ', ';
+        if (isset($body['message'])) {
+            $message = $body['message'];
+
+            if (isset($body['errors']) && is_array($body['errors'])) {
+                $message .= ': ';
+                foreach ($body['errors'] as $error) {
+                    $message .= $error['fieldName'] . ' is ' . $error['errorType'] . ', ';
+                }
+                $message = rtrim($message, ', ') . '.';
             }
-            $message = rtrim($message, ', ') . '.';
         }
 
         return $message;
