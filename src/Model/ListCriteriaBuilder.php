@@ -71,7 +71,7 @@ final class ListCriteriaBuilder
 
     public function create(): ListCriteriaInterface
     {
-        return new ListCriteria(
+        $listCriteria = new ListCriteria(
             $this->data['filters'] ?? [],
             $this->data['fields'] ?? [],
             $this->data['include'] ?? [],
@@ -81,5 +81,8 @@ final class ListCriteriaBuilder
             $this->data['sortOrder'] ?? null,
             $this->data['viewId'] ?? null,
         );
+        $this->data = [];
+
+        return $listCriteria;
     }
 }
