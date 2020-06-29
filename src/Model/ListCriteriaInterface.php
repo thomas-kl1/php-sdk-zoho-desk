@@ -10,21 +10,13 @@ namespace Zoho\Desk\Model;
 /**
  * @api
  */
-interface ListCriteriaInterface
+interface ListCriteriaInterface extends PagerCriteriaInterface
 {
+    public function getFilters(): array;
+
     public function getFields(): array;
 
     public function getInclude(): array;
 
-    public function getFrom(): ?int;
-
-    public function getLimit(): ?int;
-
-    public function getSortBy(): ?string;
-
-    public function getSortOrder(): ?string;
-
     public function getViewId(): ?int;
-
-    public function getQueryParams(): array;
 }

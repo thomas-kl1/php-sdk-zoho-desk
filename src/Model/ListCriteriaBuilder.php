@@ -13,6 +13,13 @@ final class ListCriteriaBuilder
 {
     private $data = [];
 
+    public function setFilters(array $filters): self
+    {
+        $this->data['filters'] = $filters;
+
+        return $this;
+    }
+
     public function setFields(array $fields): self
     {
         $this->data['fields'] = $fields;
@@ -65,6 +72,7 @@ final class ListCriteriaBuilder
     public function create(): ListCriteriaInterface
     {
         return new ListCriteria(
+            $this->data['filters'] ?? [],
             $this->data['fields'] ?? [],
             $this->data['include'] ?? [],
             $this->data['from'] ?? null,

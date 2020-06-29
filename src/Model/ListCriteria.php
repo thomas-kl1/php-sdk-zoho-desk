@@ -18,6 +18,11 @@ final class ListCriteria implements ListCriteriaInterface
     /**
      * @var string[]
      */
+    private $filters;
+
+    /**
+     * @var string[]
+     */
     private $include;
 
     /**
@@ -46,6 +51,7 @@ final class ListCriteria implements ListCriteriaInterface
     private $viewId;
 
     public function __construct(
+        array $fitlers,
         array $fields,
         array $include,
         ?int $from,
@@ -54,6 +60,7 @@ final class ListCriteria implements ListCriteriaInterface
         ?string $sortOrder,
         ?int $viewId
     ) {
+        $this->filters = $fitlers;
         $this->fields = $fields;
         $this->include = $include;
         $this->from = $from;
@@ -61,6 +68,11 @@ final class ListCriteria implements ListCriteriaInterface
         $this->sortBy = $sortBy;
         $this->sortOrder = $sortOrder;
         $this->viewId = $viewId;
+    }
+
+    public function getFilters(): array
+    {
+        return (array) $this->filters;
     }
 
     public function getFields(): array
@@ -102,6 +114,9 @@ final class ListCriteria implements ListCriteriaInterface
     {
         $query = [];
 
+        if ($this->getFilters()) {
+            $query = $this->getFilters();
+        }
         if ($this->getFields()) {
             $query['fields'] = implode(',', $this->getFields());
         }
