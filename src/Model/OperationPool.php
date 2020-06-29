@@ -12,6 +12,8 @@ use Zoho\Desk\Model\Operation\CreateOperation;
 use Zoho\Desk\Model\Operation\CreateOperationInterface;
 use Zoho\Desk\Model\Operation\DeleteOperation;
 use Zoho\Desk\Model\Operation\DeleteOperationInterface;
+use Zoho\Desk\Model\Operation\ListOperation;
+use Zoho\Desk\Model\Operation\ListOperationInterface;
 use Zoho\Desk\Model\Operation\ReadOperation;
 use Zoho\Desk\Model\Operation\ReadOperationInterface;
 use Zoho\Desk\Model\Operation\UpdateOperation;
@@ -42,6 +44,11 @@ final class OperationPool
     private $readOperationPool;
 
     /**
+     * @var ListOperationInterface[]
+     */
+    private $listOperationPool;
+
+    /**
      * @var UpdateOperationInterface[]
      */
     private $updateOperationPool;
@@ -59,6 +66,7 @@ final class OperationPool
         $this->dataObjectFactory = $dataObjectFactory;
         $this->createOperationPool = [];
         $this->readOperationPool = [];
+        $this->listOperationPool = [];
         $this->updateOperationPool = [];
         $this->deleteOperationPool = [];
     }
@@ -82,6 +90,19 @@ final class OperationPool
 
         return $this->readOperationPool[$hash]
             ?? $this->readOperationPool[$hash] = new ReadOperation(
+                $this->requestBuilder,
+                $this->dataObjectFactory,
+                $entityType,
+                $arguments
+            );
+    }
+
+    public function getListOperation(string $entityType, array $arguments = []): ListOperationInterface
+    {
+        $hash = md5($entityType . implode('', $arguments));
+
+        return $this->listOperationPool[$hash]
+            ?? $this->listOperationPool[$hash] = new ListOperation(
                 $this->requestBuilder,
                 $this->dataObjectFactory,
                 $entityType,
