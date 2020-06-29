@@ -38,6 +38,6 @@ abstract class AbstractDataObject implements DataObjectInterface
 
     final public function getEntityId(): ?int
     {
-        return $this->data[$this->entityIdFieldName] ?? null;
+        return isset($this->data[$this->entityIdFieldName]) ? (int) $this->data[$this->entityIdFieldName] : null;
     }
 }

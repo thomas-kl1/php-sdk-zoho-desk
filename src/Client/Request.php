@@ -45,7 +45,7 @@ final class Request implements RequestInterface
         $responseInfo = curl_getinfo($this->curlResource);
         $responseCode = curl_getinfo($this->curlResource, CURLINFO_HTTP_CODE);
         $headerSize = curl_getinfo($this->curlResource, CURLINFO_HEADER_SIZE);
-        $body = json_decode(mb_substr($response, $headerSize), true);
+        $body = json_decode(mb_substr($response, $headerSize), true) ?: [];
         curl_close($this->curlResource);
 
         if (!$responseInfo || $responseCode >= 400) {

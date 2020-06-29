@@ -79,7 +79,7 @@ final class ListCriteriaBuilder
             $this->data['limit'] ?? null,
             $this->data['sortBy'] ?? null,
             $this->data['sortOrder'] ?? null,
-            $this->data['viewId'] ?? null,
+            $this->data['viewId'] ?? null
         );
         $this->data = [];
 
