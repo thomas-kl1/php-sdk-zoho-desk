@@ -12,12 +12,12 @@ final class Response implements ResponseInterface
     /**
      * @var string[]
      */
-    private $result;
+    private array $result;
 
     /**
      * @var string[]
      */
-    private $info;
+    private array $info;
 
     public function __construct(array $result, array $info)
     {

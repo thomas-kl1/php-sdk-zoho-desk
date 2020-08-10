@@ -17,15 +17,9 @@ use Zoho\Desk\Exception\Exception;
 
 final class Client implements ClientInterface
 {
-    /**
-     * @var ConfigProviderInterface
-     */
-    private $configProvider;
+    private ConfigProviderInterface $configProvider;
 
-    /**
-     * @var bool
-     */
-    private $isConfigured;
+    private bool $isConfigured;
 
     public function __construct(
         ConfigProviderInterface $configProvider

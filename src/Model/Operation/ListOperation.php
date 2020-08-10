@@ -22,25 +22,16 @@ use function is_array;
 
 final class ListOperation implements ListOperationInterface
 {
-    /**
-     * @var RequestBuilder
-     */
-    private $requestBuilder;
+    private RequestBuilder $requestBuilder;
 
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
+    private DataObjectFactory $dataObjectFactory;
 
-    /**
-     * @var string
-     */
-    private $entityType;
+    private string $entityType;
 
     /**
      * @var string[]
      */
-    private $arguments;
+    private array $arguments;
 
     public function __construct(
         RequestBuilder $requestBuilder,

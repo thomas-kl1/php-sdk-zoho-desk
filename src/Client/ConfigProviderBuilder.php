@@ -19,12 +19,9 @@ final class ConfigProviderBuilder
     /**
      * @var string[]
      */
-    private $settings;
+    private array $settings;
 
-    /**
-     * @var ConfigProviderBuilder
-     */
-    private static $instance;
+    private static ?ConfigProviderBuilder $instance = null;
 
     private function __construct()
     {

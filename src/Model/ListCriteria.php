@@ -13,45 +13,30 @@ final class ListCriteria implements ListCriteriaInterface
     /**
      * @var string[]
      */
-    private $fields;
+    private array $fields;
 
     /**
      * @var string[]
      */
-    private $filters;
+    private array $filters;
 
     /**
      * @var string[]
      */
-    private $include;
+    private array $include;
 
-    /**
-     * @var int|null
-     */
-    private $from;
+    private ?int $from;
 
-    /**
-     * @var int|null
-     */
-    private $limit;
+    private ?int $limit;
 
-    /**
-     * @var string|null
-     */
-    private $sortBy;
+    private ?string $sortBy;
 
-    /**
-     * @var string|null
-     */
-    private $sortOrder;
+    private ?string $sortOrder;
 
-    /**
-     * @var int|null
-     */
-    private $viewId;
+    private ?int $viewId;
 
     public function __construct(
-        array $fitlers,
+        array $filters,
         array $fields,
         array $include,
         ?int $from,
@@ -60,7 +45,7 @@ final class ListCriteria implements ListCriteriaInterface
         ?string $sortOrder,
         ?int $viewId
     ) {
-        $this->filters = $fitlers;
+        $this->filters = $filters;
         $this->fields = $fields;
         $this->include = $include;
         $this->from = $from;

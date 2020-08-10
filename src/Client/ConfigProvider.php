@@ -17,7 +17,7 @@ final class ConfigProvider implements ConfigProviderInterface
     /**
      * @var string[]
      */
-    private $settings;
+    private array $settings;
 
     public function __construct(array $settings)
     {

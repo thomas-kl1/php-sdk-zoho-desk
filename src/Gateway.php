@@ -18,15 +18,9 @@ use Zoho\Desk\OAuth\Client;
  */
 final class Gateway
 {
-    /**
-     * @var DataObjectFactory
-     */
-    public $dataObjectFactory;
+    public DataObjectFactory $dataObjectFactory;
 
-    /**
-     * @var OperationPool
-     */
-    public $operationPool;
+    public OperationPool $operationPool;
 
     public function __construct(ConfigProviderInterface $configProvider, array $registeredEntityTypes = [])
     {

@@ -11,15 +11,9 @@ use function json_encode;
 
 abstract class AbstractDataObject implements DataObjectInterface
 {
-    /**
-     * @var string
-     */
-    protected $entityIdFieldName;
-    
-    /**
-     * @var array
-     */
-    protected $data;
+    protected string $entityIdFieldName;
+
+    protected array $data;
 
     public function __construct(array $data)
     {

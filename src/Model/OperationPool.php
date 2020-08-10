@@ -23,40 +23,34 @@ use function md5;
 
 final class OperationPool
 {
-    /**
-     * @var RequestBuilder
-     */
-    private $requestBuilder;
+    private RequestBuilder $requestBuilder;
 
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
+    private DataObjectFactory $dataObjectFactory;
 
     /**
      * @var CreateOperationInterface[]
      */
-    private $createOperationPool;
+    private array $createOperationPool;
 
     /**
      * @var ReadOperationInterface[]
      */
-    private $readOperationPool;
+    private array $readOperationPool;
 
     /**
      * @var ListOperationInterface[]
      */
-    private $listOperationPool;
+    private array $listOperationPool;
 
     /**
      * @var UpdateOperationInterface[]
      */
-    private $updateOperationPool;
+    private array $updateOperationPool;
 
     /**
      * @var DeleteOperationInterface[]
      */
-    private $deleteOperationPool;
+    private array $deleteOperationPool;
 
     public function __construct(
         RequestBuilder $requestBuilder,

@@ -37,10 +37,7 @@ final class RequestBuilder
 
     private const MANDATORY_FIELDS = ['entityType', 'method'];
 
-    /**
-     * @var ClientInterface
-     */
-    private $client;
+    private ClientInterface $client;
 
     /**
      * @var resource
@@ -48,14 +45,14 @@ final class RequestBuilder
     private $curl;
 
     /**
-     * @var array
+     * @var string[]
      */
-    private $mandatoryData;
+    private array $mandatoryData;
 
     /**
      * @var array
      */
-    private $data;
+    private array $data;
 
     public function __construct(ClientInterface $client, array $mandatoryData = [])
     {
@@ -127,7 +124,7 @@ final class RequestBuilder
         $request = new Request($this->curl);
 
         $this->curl = null;
-        $this->data = null;
+        $this->data = [];
 
         return $request;
     }

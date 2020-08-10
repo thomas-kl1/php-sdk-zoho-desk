@@ -9,5 +9,5 @@ namespace Zoho\Desk\Model;
 
 final class DataObject extends AbstractDataObject
 {
-    protected $entityIdFieldName = 'id';
+    protected string $entityIdFieldName = 'id';
 }

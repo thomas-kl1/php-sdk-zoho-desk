@@ -11,7 +11,7 @@ namespace Zoho\Desk\Model;
  */
 final class ListCriteriaBuilder
 {
-    private $data = [];
+    private array $data = [];
 
     public function setFilters(array $filters): self
     {

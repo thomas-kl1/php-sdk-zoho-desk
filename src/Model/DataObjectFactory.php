@@ -15,7 +15,7 @@ final class DataObjectFactory
     /**
      * @var string[]
      */
-    private $dataObjectTypes;
+    private array $dataObjectTypes;
 
     public function __construct(array $dataObjectTypes = [])
     {

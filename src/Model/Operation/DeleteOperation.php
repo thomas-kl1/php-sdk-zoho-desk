@@ -17,20 +17,14 @@ use function sprintf;
 
 final class DeleteOperation implements DeleteOperationInterface
 {
-    /**
-     * @var RequestBuilder
-     */
-    private $requestBuilder;
+    private RequestBuilder $requestBuilder;
 
-    /**
-     * @var string
-     */
-    private $entityType;
+    private string $entityType;
 
     /**
      * @var string[]
      */
-    private $arguments;
+    private array $arguments;
 
     public function __construct(
         RequestBuilder $requestBuilder,
