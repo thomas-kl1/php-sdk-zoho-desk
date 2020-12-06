@@ -7,8 +7,7 @@ declare(strict_types=1);
 
 namespace Zoho\Desk\Client;
 
-use zcrmsdk\crm\utility\APIConstants;
-use zcrmsdk\oauth\utility\ZohoOAuthConstants;
+use Zoho\OAuth\Utility\ZohoOAuthConstants;
 use Zoho\Desk\Api\Metadata;
 
 /**
@@ -56,21 +55,21 @@ final class ConfigProviderBuilder
 
     public function setCurrentUserEmail(string $userEmail): self
     {
-        $this->settings[APIConstants::CURRENT_USER_EMAIL] = $userEmail;
+        $this->settings[Metadata::API_FIELD_CURRENT_USER_EMAIL] = $userEmail;
 
         return $this;
     }
 
     public function setApiBaseUrl(string $apiBaseUrl): self
     {
-        $this->settings[APIConstants::API_BASE_URL] = $apiBaseUrl;
+        $this->settings[Metadata::API_FIELD_BASE_URL] = $apiBaseUrl;
 
         return $this;
     }
 
     public function setApiVersion(string $apiVersion): self
     {
-        $this->settings[APIConstants::API_VERSION] = $apiVersion;
+        $this->settings[Metadata::API_FIELD_VERSION] = $apiVersion;
 
         return $this;
     }

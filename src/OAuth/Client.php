@@ -7,10 +7,9 @@ declare(strict_types=1);
 
 namespace Zoho\Desk\OAuth;
 
-use zcrmsdk\crm\utility\APIConstants;
-use zcrmsdk\oauth\exception\ZohoOAuthException;
-use zcrmsdk\oauth\ZohoOAuth;
-use zcrmsdk\oauth\ZohoOAuthClient;
+use Zoho\OAuth\Exception\ZohoOAuthException;
+use Zoho\OAuth\ZohoOAuth;
+use Zoho\OAuth\ZohoOAuthClient;
 use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Client\ConfigProviderInterface;
 use Zoho\Desk\Exception\Exception;
@@ -30,12 +29,12 @@ final class Client implements ClientInterface
 
     public function getApiBaseUrl(): string
     {
-        return $this->configProvider->get()[APIConstants::API_BASE_URL] ?? Metadata::API_ENDPOINT_US;
+        return $this->configProvider->get()[Metadata::API_FIELD_BASE_URL] ?? Metadata::API_ENDPOINT_US;
     }
 
     public function getApiVersion(): string
     {
-        return $this->configProvider->get()[APIConstants::API_VERSION] ?? Metadata::API_VERSION;
+        return $this->configProvider->get()[Metadata::API_FIELD_VERSION] ?? Metadata::API_VERSION;
     }
 
     /**
@@ -48,7 +47,7 @@ final class Client implements ClientInterface
             $this->configure();
             /** @var ZohoOAuthClient $oauthClient */
             $oauthClient = ZohoOAuth::getClientInstance();
-            $accessToken = $oauthClient->getAccessToken($this->configProvider->get()[APIConstants::CURRENT_USER_EMAIL]);
+            $accessToken = $oauthClient->getAccessToken($this->configProvider->get()[Metadata::API_FIELD_CURRENT_USER_EMAIL]);
         } catch (ZohoOAuthException $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }

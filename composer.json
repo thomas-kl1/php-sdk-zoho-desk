@@ -35,8 +35,7 @@
         "php": "^7.4",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
-        "zohocrm/php-sdk": "^2.1"
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
@@ -49,12 +48,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Zoho\\Desk\\": "src/"
+            "Zoho\\Desk\\": "src/",
+            "Zoho\\OAuth\\": "lib/zcrmsdk/oauth/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zoho\\Desk\\": "tests/"
+            "Zoho\\Desk\\": "tests/",
+            "Zoho\\OAuth\\": "lib/zoho/oauth/"
         }
     }
 }

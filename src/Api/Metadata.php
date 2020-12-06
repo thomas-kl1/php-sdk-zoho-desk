@@ -9,6 +9,9 @@ namespace Zoho\Desk\Api;
 
 final class Metadata
 {
+    public const API_FIELD_CURRENT_USER_EMAIL = 'currentUserEmail';
+    public const API_FIELD_BASE_URL = 'apiBaseUrl';
+    public const API_FIELD_VERSION = 'apiVersion';
     public const API_ENDPOINT_US = 'desk.zoho.com/api';
     public const API_ENDPOINT_AU = 'desk.zoho.com.au/api';
     public const API_ENDPOINT_EU = 'desk.zoho.eu/api';

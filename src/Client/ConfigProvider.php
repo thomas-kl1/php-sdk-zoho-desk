@@ -7,8 +7,7 @@ declare(strict_types=1);
 
 namespace Zoho\Desk\Client;
 
-use zcrmsdk\crm\utility\APIConstants;
-use zcrmsdk\oauth\utility\ZohoOAuthConstants;
+use Zoho\OAuth\Utility\ZohoOAuthConstants;
 use Zoho\Desk\Api\Metadata;
 use function array_merge;
 
@@ -35,11 +34,11 @@ final class ConfigProvider implements ConfigProviderInterface
             ZohoOAuthConstants::CLIENT_ID => null,
             ZohoOAuthConstants::CLIENT_SECRET => null,
             ZohoOAuthConstants::REDIRECT_URL => null,
-            APIConstants::CURRENT_USER_EMAIL => null,
+            Metadata::API_FIELD_CURRENT_USER_EMAIL => null,
             Metadata::ORG_ID => null,
             ZohoOAuthConstants::SANDBOX => null,
-            APIConstants::API_BASE_URL => Metadata::API_ENDPOINT_US,
-            APIConstants::API_VERSION => Metadata::API_VERSION,
+            Metadata::API_FIELD_BASE_URL => Metadata::API_ENDPOINT_US,
+            Metadata::API_FIELD_VERSION => Metadata::API_VERSION,
             ZohoOAuthConstants::ACCESS_TYPE => Metadata::ACCESS_TYPE,
             ZohoOAuthConstants::IAM_URL => null,
             ZohoOAuthConstants::TOKEN_PERSISTENCE_PATH => null,

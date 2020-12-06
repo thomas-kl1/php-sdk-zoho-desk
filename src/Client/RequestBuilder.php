@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Zoho\Desk\Client;
 
-use zcrmsdk\oauth\utility\ZohoOAuthConstants;
+use Zoho\OAuth\Utility\ZohoOAuthConstants;
 use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Exception\Exception;
 use Zoho\Desk\Exception\InvalidArgumentException;
