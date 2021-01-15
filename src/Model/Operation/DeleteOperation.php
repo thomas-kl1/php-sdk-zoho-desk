@@ -41,7 +41,6 @@ final class DeleteOperation implements DeleteOperationInterface
         try {
             $this->requestBuilder
                 ->setEntityType($this->entityType)
-                ->setArguments([$entityId])
                 ->setMethod(RequestBuilder::HTTP_DELETE)
                 ->setArguments(array_merge([$entityId], $this->arguments))
                 ->create()

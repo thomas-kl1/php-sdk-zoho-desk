@@ -9,5 +9,9 @@ namespace Zoho\Desk\Model;
 
 final class DataObject extends AbstractDataObject
 {
-    protected string $entityIdFieldName = 'id';
+    public function __construct(array $data)
+    {
+        $this->entityIdFieldName = $data['entityIdFieldName'] ?? 'id';
+        parent::__construct($data);
+    }
 }
