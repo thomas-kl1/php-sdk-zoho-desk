@@ -30,28 +30,28 @@ $gateway = new Gateway($configBuilder->create());
 
 /** CRUD Operations **/
 
-$ticketDataObject = $gateway->createDataObject('tickets', /* Entity values */);
+$ticketDataObject = $gateway->dataObjectFactory->create('tickets', /* Entity values */);
 
 try {
-    $ticketDataObject = $gateway->create('tickets', $ticketDataObject);
+    $ticketDataObject = $gateway->operationPool->getCreateOperation('tickets')->create($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->get('tickets', 1234);
+    $ticketDataObject = $gateway->operationPool->getReadOperation('tickets')->get(1234);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->update('tickets', $ticketDataObject);
+    $ticketDataObject = $gateway->operationPool->getUpdateOperation('tickets')->update($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $gateway->delete('tickets', 1234, ['resolution']);
+    $gateway->operationPool->getDeleteOperation('tickets', ['resolution'])->delete(1234);
 } catch (CouldNotDeleteException $e) {
     // Handle the exception...
 }

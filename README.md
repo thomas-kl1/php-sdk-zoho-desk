@@ -40,29 +40,25 @@ for Europe the url is: [https://api-console.zoho.eu]
 ```php
 include __DIR__ . /* Relative path to the vendor autoloader */ '/vendor/autoload.php';
 
-use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
-use zcrmsdk\oauth\exception\ZohoOAuthException;
-use zcrmsdk\oauth\utility\ZohoOAuthConstants;
-use zcrmsdk\oauth\ZohoOAuth;
-use zcrmsdk\oauth\ZohoOAuthClient;
 use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Client\ConfigProviderBuilder;
+use Zoho\OAuth\ZohoOAuth;
 
 $configBuilder = ConfigProviderBuilder::getInstance();
 $configBuilder->setClientId(/* Client ID */)
-  ->setClientSecret(/* Client Secret */)
-  ->setRedirectUrl(/* Redirect Url */)
-  ->setCurrentUserEmail(/* User Email */)
-  ->setApiBaseUrl(/* API Endpoint by region */)
-  ->setApiVersion(Metadata::API_VERSION)
-  ->setOrgId(/* Org ID */)
-  ->setIsSandbox(/* Sandbox Status */)
-  ->setAccountsUrl(/* Accounts Url */)
-  ->setTokenPersistencePath(/* Persistence Path */);
+    ->setClientSecret(/* Client Secret */)
+    ->setRedirectUrl(/* Redirect Url */)
+    ->setCurrentUserEmail(/* User Email */)
+    ->setApiBaseUrl(/* API Endpoint by region */)
+    ->setApiVersion(Metadata::API_VERSION)
+    ->setOrgId(/* Org ID */)
+    ->setIsSandbox(/* Sandbox Status */)
+    ->setAccountsUrl(/* Accounts Url */)
+    ->setTokenPersistencePath(/* Persistence Path */);
 
 // Add php code if the zcrm_oauthtokens.txt to create the file if it does not already exists.
 
-ZCRMRestClient::initialize($configBuilder->create());
+ZohoOAuth::initialize($configBuilder->create()->get());
 ZohoOAuth::getClientInstance()->generateAccessToken($grantCode);
 ```
 
@@ -104,31 +100,32 @@ use Zoho\Desk\Exception\CouldNotDeleteException;
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Exception\CouldNotSaveException;
 
-$ticketDataObject = $gateway->createDataObject('tickets', /* Entity values */);
+$ticketDataObject = $gateway->dataObjectFactory->create('tickets', /* Entity values */);
 
 try {
-    $ticketDataObject = $gateway->create('tickets', $ticketDataObject);
+    $ticketDataObject = $gateway->operationPool->getCreateOperation('tickets')->create($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->get('tickets', 1234);
+    $ticketDataObject = $gateway->operationPool->getReadOperation('tickets')->get(1234);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->update('tickets', $ticketDataObject);
+    $ticketDataObject = $gateway->operationPool->getUpdateOperation('tickets')->update($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $gateway->delete('tickets', 1234, ['resolution']);
+    $gateway->operationPool->getDeleteOperation('tickets', ['resolution'])->delete(1234);
 } catch (CouldNotDeleteException $e) {
     // Handle the exception...
 }
+
 ```
 
 ## Support
