@@ -101,6 +101,7 @@ The facade is easy to use:
 use Zoho\Desk\Exception\CouldNotDeleteException;
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Exception\CouldNotSaveException;
+use Zoho\Desk\Model\ListCriteriaBuilder;
 
 $ticketDataObject = $gateway->getDataObjectFactory()->create('tickets', /* Entity values */);
 
@@ -112,6 +113,15 @@ try {
 
 try {
     $ticketDataObject = $gateway->getOperationPool()->getReadOperation('tickets')->get(1234);
+} catch (CouldNotReadException $e) {
+    // Handle the exception...
+}
+
+try {
+    $criteriaBuilder = new ListCriteriaBuilder();
+    // $criteriaBuilder->setFields()->setFilters()...
+    $ticketList = $gateway->getOperationPool()->getListOperation('tickets')->getList($criteriaBuilder->create());
+    $ticketList = $gateway->getOperationPool()->getListOperation('tickets')->getByIds([1,2,3]);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }

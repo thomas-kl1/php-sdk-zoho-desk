@@ -1,5 +1,0 @@
-2021-03-23 10:29:32 SEVERE: Exception while retrieving tokens from persistence - Zoho\OAuth\Exception\ZohoOAuthException Caused by:'No Tokens exist for the given user-identifier,Please generate and try again.' in /home/web/zoho-desk-sdk/htdocs/lib/zoho/oauth/Persistence/ZohoOAuthPersistenceByFile.php(73)
-#0 /home/web/zoho-desk-sdk/htdocs/lib/zoho/oauth/ZohoOAuthClient.php(38): Zoho\OAuth\Persistence\ZohoOAuthPersistenceByFile->getOAuthTokens()
-#1 /home/web/zoho-desk-sdk/htdocs/src/OAuth/Client.php(50): Zoho\OAuth\ZohoOAuthClient->getAccessToken()
-#2 /home/web/zoho-desk-sdk/htdocs/docs/sample/code/index.php(33): Zoho\Desk\OAuth\Client->getAccessToken()
-#3 {main}

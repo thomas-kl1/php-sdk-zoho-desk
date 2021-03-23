@@ -2,6 +2,10 @@
 
 All notable changes to this publication will be documented in this file.
 
+## 3.0.0 - 2021-03-23
+- Fix composer PSR-4 autoloader mapper
+- Expose services as read-only properties in the gateway facade
+
 ## 2.1.0 - 2020-12-06
 - Include the Zcrm OAuth codebase into the package due to the Zoho team who archived the zcrm package
 
