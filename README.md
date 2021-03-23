@@ -28,6 +28,8 @@ Please check you have the allowed scope of operation with the proper registered 
 
 ## Settings
 
+**All the basic constants settings are available in `\Zoho\Desk\Api\Metadata`.**
+
 First you need to have a valid access token. First of all connect to your Zoho developer console from your region of
 subscription:
 
@@ -100,28 +102,28 @@ use Zoho\Desk\Exception\CouldNotDeleteException;
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Exception\CouldNotSaveException;
 
-$ticketDataObject = $gateway->dataObjectFactory->create('tickets', /* Entity values */);
+$ticketDataObject = $gateway->getDataObjectFactory()->create('tickets', /* Entity values */);
 
 try {
-    $ticketDataObject = $gateway->operationPool->getCreateOperation('tickets')->create($ticketDataObject);
+    $ticketDataObject = $gateway->getOperationPool()->getCreateOperation('tickets')->create($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->operationPool->getReadOperation('tickets')->get(1234);
+    $ticketDataObject = $gateway->getOperationPool()->getReadOperation('tickets')->get(1234);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->operationPool->getUpdateOperation('tickets')->update($ticketDataObject);
+    $ticketDataObject = $gateway->getOperationPool()->getUpdateOperation('tickets')->update($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $gateway->operationPool->getDeleteOperation('tickets', ['resolution'])->delete(1234);
+    $gateway->getOperationPool()->getDeleteOperation('tickets', ['resolution'])->delete(1234);
 } catch (CouldNotDeleteException $e) {
     // Handle the exception...
 }

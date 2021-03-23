@@ -13,6 +13,10 @@ use Zoho\Desk\Exception\CouldNotDeleteException;
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Exception\CouldNotSaveException;
 use Zoho\Desk\Gateway;
+use Zoho\OAuth\ZohoOAuth;
+
+// Optional, it's used by the zoho/oauth package
+define('LOGGER_PATH', __DIR__ . '/');
 
 $configBuilder = ConfigProviderBuilder::getInstance();
 $configBuilder->setClientId(/* Client ID */)
@@ -26,32 +30,37 @@ $configBuilder->setClientId(/* Client ID */)
     ->setAccountsUrl(/* Accounts Url */)
     ->setTokenPersistencePath(/* Persistence Path */);
 
-$gateway = new Gateway($configBuilder->create());
+$config = $configBuilder->create();
+$gateway = new Gateway($config);
+
+// Optional: if you need to register the token first
+// ZohoOAuth::initialize($config->get());
+// ZohoOAuth::getClientInstance()->generateAccessToken(/* Grant Code */);
 
 /** CRUD Operations **/
 
-$ticketDataObject = $gateway->dataObjectFactory->create('tickets', /* Entity values */);
+$ticketDataObject = $gateway->getDataObjectFactory()->create('tickets', /* Entity values */);
 
 try {
-    $ticketDataObject = $gateway->operationPool->getCreateOperation('tickets')->create($ticketDataObject);
+    $ticketDataObject = $gateway->getOperationPool()->getCreateOperation('tickets')->create($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->operationPool->getReadOperation('tickets')->get(1234);
+    $ticketDataObject = $gateway->getOperationPool()->getReadOperation('tickets')->get(1234);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->operationPool->getUpdateOperation('tickets')->update($ticketDataObject);
+    $ticketDataObject = $gateway->getOperationPool()->getUpdateOperation('tickets')->update($ticketDataObject);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $gateway->operationPool->getDeleteOperation('tickets', ['resolution'])->delete(1234);
+    $gateway->getOperationPool()->getDeleteOperation('tickets', ['resolution'])->delete(1234);
 } catch (CouldNotDeleteException $e) {
     // Handle the exception...
 }

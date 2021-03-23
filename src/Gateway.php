@@ -18,16 +18,39 @@ use Zoho\Desk\OAuth\Client;
  */
 final class Gateway
 {
-    public DataObjectFactory $dataObjectFactory;
+    private DataObjectFactory $dataObjectFactory;
 
-    public OperationPool $operationPool;
+    private OperationPool $operationPool;
+
+    private Client $client;
+
+    private RequestBuilder $requestBuilder;
 
     public function __construct(ConfigProviderInterface $configProvider, array $registeredEntityTypes = [])
     {
         $this->dataObjectFactory = new DataObjectFactory($registeredEntityTypes);
-        $this->operationPool = new OperationPool(
-            new RequestBuilder(new Client($configProvider)),
-            $this->dataObjectFactory
-        );
+        $this->client = new Client($configProvider);
+        $this->requestBuilder = new RequestBuilder($this->client);
+        $this->operationPool = new OperationPool($this->requestBuilder, $this->dataObjectFactory);
+    }
+
+    public function getDataObjectFactory(): DataObjectFactory
+    {
+        return $this->dataObjectFactory;
+    }
+
+    public function getOperationPool(): OperationPool
+    {
+        return $this->operationPool;
+    }
+
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    public function getRequestBuilder(): RequestBuilder
+    {
+        return $this->requestBuilder;
     }
 }

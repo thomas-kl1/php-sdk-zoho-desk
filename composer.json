@@ -49,7 +49,7 @@
     "autoload": {
         "psr-4": {
             "Zoho\\Desk\\": "src/",
-            "Zoho\\OAuth\\": "lib/zcrmsdk/oauth/"
+            "Zoho\\OAuth\\": "lib/zoho/oauth/"
         }
     },
     "autoload-dev": {
