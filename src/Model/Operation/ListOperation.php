@@ -65,8 +65,10 @@ final class ListOperation implements ListOperationInterface
 
     public function getList(ListCriteriaInterface $listCriteria): array
     {
+        $arguments = $listCriteria->getFilters() ? array_merge(['search'], $this->arguments) : $this->arguments;
+
         try {
-            $response = $this->fetchResult(array_merge(['search'], $this->arguments), $listCriteria->getQueryParams());
+            $response = $this->fetchResult($arguments, $listCriteria->getQueryParams());
         } catch (InvalidArgumentException $e) {
             throw new CouldNotReadException($e->getMessage(), $e->getCode(), $e);
         } catch (InvalidRequestException $e) {

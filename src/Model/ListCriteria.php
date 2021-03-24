@@ -98,15 +98,20 @@ final class ListCriteria implements ListCriteriaInterface
     public function getQueryParams(): array
     {
         $query = [];
+        $filters = $this->getFilters();
 
-        if ($this->getFilters()) {
-            $query = $this->getFilters();
-        }
-        if ($this->getFields()) {
-            $query['fields'] = implode(',', $this->getFields());
-        }
-        if ($this->getInclude()) {
-            $query['include'] = implode(',', $this->getInclude());
+        if ($filters) {
+            $query = $filters;
+        } else {
+            if ($this->getFields()) {
+                $query['fields'] = implode(',', $this->getFields());
+            }
+            if ($this->getInclude()) {
+                $query['include'] = implode(',', $this->getInclude());
+            }
+            if ($this->getViewId()) {
+                $query['viewId'] = $this->getViewId();
+            }
         }
         if ($this->getFrom()) {
             $query['from'] = $this->getFrom();
@@ -116,9 +121,6 @@ final class ListCriteria implements ListCriteriaInterface
         }
         if ($this->getSortBy()) {
             $query['sortBy'] = ($this->getSortOrder() === 'DESC' ? '-' : '') . $this->getSortBy();
-        }
-        if ($this->getViewId()) {
-            $query['viewId'] = $this->getViewId();
         }
 
         return $query;
