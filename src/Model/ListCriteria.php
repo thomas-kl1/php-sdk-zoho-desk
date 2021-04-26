@@ -97,12 +97,9 @@ final class ListCriteria implements ListCriteriaInterface
 
     public function getQueryParams(): array
     {
-        $query = [];
-        $filters = $this->getFilters();
+        $query = $this->getFilters();
 
-        if ($filters) {
-            $query = $filters;
-        } else {
+        if (!$query) {
             if ($this->getFields()) {
                 $query['fields'] = implode(',', $this->getFields());
             }
