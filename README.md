@@ -1,6 +1,9 @@
 # Zoho Desk PHP SDK
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/tklein/php-sdk-zoho-desk.svg?style=flat-square)](https://packagist.org/packages/tklein/php-sdk-zoho-desk)
+[![Codacy Badge](https://img.shields.io/codacy/grade/2b8c15af44ad4dde8686532887dcac0a/master.svg?style=flat-square)](https://app.codacy.com/app/thomas-klein/php-sdk-zoho-desk)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/thomas-kl1/php-sdk-zoho-desk/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/thomas-kl1/php-sdk-zoho-desk/?branch=master)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/thomas-kl1/php-sdk-zoho-desk.svg?style=flat-square)](https://codeclimate.com/github/thomas-kl1/php-sdk-zoho-desk)
 [![License: MIT](https://img.shields.io/github/license/thomas-kl1/php-sdk-zoho-desk.svg?style=flat-square)](./LICENSE)
 [![Packagist](https://img.shields.io/packagist/dt/tklein/php-sdk-zoho-desk.svg?style=flat-square)](https://packagist.org/packages/tklein/php-sdk-zoho-desk/stats)
 [![Packagist](https://img.shields.io/packagist/dm/tklein/php-sdk-zoho-desk.svg?style=flat-square)](https://packagist.org/packages/tklein/php-sdk-zoho-desk/stats)
