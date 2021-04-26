@@ -35,9 +35,14 @@ subscription:
 
 for Europe the url is: [https://api-console.zoho.eu]
 
-- Create or use an existing "Self Client" application.
-- Generate the grant code, with the proper scopes.
+- Create or use an existing "Self Client" application. You may need these informations:
+- Generate the grant code, with the proper scopes. ***`aaaserver.profile.READ` scope is mandatory***
 - Generate the persistence auth token file with the Zoho SDK:
+    - Client ID: you can find it in the Zoho api developer console
+    - Client Secret: you can find it in the Zoho api developer console
+    - Redirect url: this is a dummy url, it's part of the oauth standaard but not actively used
+    - Current User Email: this is the user email used to create the self client integration (https://accounts.zoho.<domain from were you registered to>/oauth/user/info)
+    - Org ID: this is your organization ID in your Zoho Desk application: Setup and Configuration -> DEVELOPER SPACE -> API -> Zoho Desk API -> OrgId (Orgnization ID) field value
 
 ```php
 include __DIR__ . /* Relative path to the vendor autoloader */ '/vendor/autoload.php';
@@ -83,6 +88,30 @@ $configBuilder->setClientId(/* Client ID */)
     ->setIsSandbox(/* Sandbox Status */)
     ->setAccountsUrl(/* Accounts Url */)
     ->setTokenPersistencePath(/* Persistence Path */);
+```
+
+You can use the following pre-defined values from the `Metadata` class:
+
+```php
+final class Metadata
+{
+    public const API_FIELD_CURRENT_USER_EMAIL = 'currentUserEmail';
+    public const API_FIELD_BASE_URL = 'apiBaseUrl';
+    public const API_FIELD_VERSION = 'apiVersion';
+    public const API_ENDPOINT_US = 'desk.zoho.com/api';
+    public const API_ENDPOINT_AU = 'desk.zoho.com.au/api';
+    public const API_ENDPOINT_EU = 'desk.zoho.eu/api';
+    public const API_ENDPOINT_IN = 'desk.zoho.in/api';
+    public const API_ENDPOINT_CN = 'desk.zoho.com.cn/api';
+    public const API_VERSION = 'v1';
+    public const ACCESS_TYPE = 'offline';
+    public const ORG_ID = 'orgId';
+    public const API_ACCOUNTS_US = 'https://accounts.zoho.com';
+    public const API_ACCOUNTS_AU = 'https://accounts.zoho.com.au';
+    public const API_ACCOUNTS_EU = 'https://accounts.zoho.eu';
+    public const API_ACCOUNTS_IN = 'https://accounts.zoho.in';
+    public const API_ACCOUNTS_CN = 'https://accounts.zoho.com.cn';
+}
 ```
 
 ## Documentation
