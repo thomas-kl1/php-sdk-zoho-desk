@@ -40,6 +40,7 @@ for Europe the url is: [https://api-console.zoho.eu]
 
 - Create or use an existing "Self Client" application. You may need these informations:
 - Generate the grant code, with the proper scopes. ***`aaaserver.profile.READ` scope is mandatory***
+  The full list of scopes is availables at: https://desk.zoho.com/DeskAPIDocument#OauthTokens#UsingOAuthtokenAPI
 - Generate the persistence auth token file with the Zoho SDK:
     - Client ID: you can find it in the Zoho api developer console
     - Client Secret: you can find it in the Zoho api developer console
