@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Model\DataObjectInterface;
@@ -13,21 +13,11 @@ use Zoho\Desk\Model\ListCriteriaInterface;
 
 /**
  * @api
- * @deprecated
  */
 interface ListOperationInterface
 {
     /**
-     * @param int[] $entityIds
-     * @return DataObjectInterface[]
      * @throws CouldNotReadException
      */
-    public function getByIds(array $entityIds): array;
-
-    /**
-     * @param ListCriteriaInterface $listCriteria
-     * @return DataObjectInterface[]
-     * @throws CouldNotReadException
-     */
-    public function getList(ListCriteriaInterface $listCriteria): array;
+    public function getList(ListCriteriaInterface $listCriteria, array $bind = []): array;
 }

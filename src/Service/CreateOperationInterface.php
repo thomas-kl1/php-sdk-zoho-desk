@@ -5,21 +5,18 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Exception\CouldNotSaveException;
 use Zoho\Desk\Model\DataObjectInterface;
 
 /**
  * @api
- * @deprecated
  */
-interface UpdateOperationInterface
+interface CreateOperationInterface
 {
     /**
-     * @param DataObjectInterface $dataObject
-     * @return DataObjectInterface
      * @throws CouldNotSaveException
      */
-    public function update(DataObjectInterface $dataObject): DataObjectInterface;
+    public function create(DataObjectInterface $dataObject, array $bind = []): DataObjectInterface;
 }

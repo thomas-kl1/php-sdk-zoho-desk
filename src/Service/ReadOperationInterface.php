@@ -5,21 +5,18 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Exception\CouldNotReadException;
 use Zoho\Desk\Model\DataObjectInterface;
 
 /**
  * @api
- * @deprecated
  */
 interface ReadOperationInterface
 {
     /**
-     * @param int $entityId
-     * @return DataObjectInterface
      * @throws CouldNotReadException
      */
-    public function get(int $entityId): DataObjectInterface;
+    public function get(array $bind): DataObjectInterface;
 }

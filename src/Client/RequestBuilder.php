@@ -12,7 +12,11 @@ use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Exception\Exception;
 use Zoho\Desk\Exception\InvalidArgumentException;
 use Zoho\Desk\OAuth\ClientInterface;
+
+use function array_keys;
+use function array_map;
 use function array_merge;
+use function array_values;
 use function curl_init;
 use function curl_setopt;
 use function http_build_query;
@@ -20,6 +24,8 @@ use function is_array;
 use function is_numeric;
 use function json_encode;
 use function sprintf;
+use function str_replace;
+
 use const CURLOPT_CUSTOMREQUEST;
 use const CURLOPT_HEADER;
 use const CURLOPT_HTTPHEADER;
@@ -61,11 +67,23 @@ final class RequestBuilder
         $this->data = [];
     }
 
+    /**
+     * @deprecated
+     */
     public function setEntityType(string $entityType): self
     {
         $this->data['entityType'] = $entityType;
 
         return $this;
+    }
+
+    public function setPath(string $path, array $bind = []): self
+    {
+        $search = array_map(static function (string $variable): string {
+            return '{' . $variable . '}';
+        }, array_keys($bind));
+
+        return $this->setEntityType(str_replace($search, array_values($bind), $path));
     }
 
     public function setMethod(string $method): self

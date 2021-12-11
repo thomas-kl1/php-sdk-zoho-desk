@@ -21,6 +21,9 @@ use Zoho\Desk\Model\Operation\UpdateOperationInterface;
 use function implode;
 use function md5;
 
+/**
+ * @deprecated
+ */
 final class OperationPool
 {
     private RequestBuilder $requestBuilder;
