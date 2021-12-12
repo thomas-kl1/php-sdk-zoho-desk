@@ -17,6 +17,10 @@ use Zoho\Desk\Model\DataObjectFactory;
 use Zoho\Desk\Model\DataObjectInterface;
 use function array_merge;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\ReadOperation
+ */
 final class ReadOperation implements ReadOperationInterface
 {
     private RequestBuilder $requestBuilder;

@@ -15,6 +15,10 @@ use Zoho\Desk\Exception\InvalidRequestException;
 use function array_merge;
 use function sprintf;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\DeleteOperation
+ */
 final class DeleteOperation implements DeleteOperationInterface
 {
     private RequestBuilder $requestBuilder;

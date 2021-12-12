@@ -83,7 +83,9 @@ final class RequestBuilder
             return '{' . $variable . '}';
         }, array_keys($bind));
 
-        return $this->setEntityType(str_replace($search, array_values($bind), $path));
+        $this->data['path'] = str_replace($search, array_values($bind), $path);
+
+        return $this;
     }
 
     public function setMethod(string $method): self
@@ -171,7 +173,7 @@ final class RequestBuilder
             'https://%s/%s/%s',
             $this->client->getApiBaseUrl(),
             $this->client->getApiVersion(),
-            $this->data['entityType']
+            $this->data['path'] ?? $this->data['entityType']
         );
 
         if (isset($this->data['arguments']) && is_array($this->data['arguments'])) {

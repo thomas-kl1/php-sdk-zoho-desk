@@ -12,6 +12,7 @@ use Zoho\Desk\Exception\CouldNotDeleteException;
 /**
  * @api
  * @deprecated
+ * @see \Zoho\Desk\Service\DeleteOperationInterface
  */
 interface DeleteOperationInterface
 {

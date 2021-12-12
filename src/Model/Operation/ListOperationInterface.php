@@ -14,6 +14,7 @@ use Zoho\Desk\Model\ListCriteriaInterface;
 /**
  * @api
  * @deprecated
+ * @see \Zoho\Desk\Service\ListOperationInterface
  */
 interface ListOperationInterface
 {
