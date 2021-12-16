@@ -41,7 +41,7 @@ final class RequestBuilder
     public const HTTP_PATCH = 'PATCH';
     public const HTTP_DELETE = 'DELETE';
 
-    private const MANDATORY_FIELDS = ['entityType', 'method'];
+    private const MANDATORY_FIELDS = ['path', 'method'];
 
     private ClientInterface $client;
 
@@ -72,7 +72,7 @@ final class RequestBuilder
      */
     public function setEntityType(string $entityType): self
     {
-        $this->data['entityType'] = $entityType;
+        $this->data['path'] = $entityType;
 
         return $this;
     }
@@ -173,7 +173,7 @@ final class RequestBuilder
             'https://%s/%s/%s',
             $this->client->getApiBaseUrl(),
             $this->client->getApiVersion(),
-            $this->data['path'] ?? $this->data['entityType']
+            $this->data['path']
         );
 
         if (isset($this->data['arguments']) && is_array($this->data['arguments'])) {
