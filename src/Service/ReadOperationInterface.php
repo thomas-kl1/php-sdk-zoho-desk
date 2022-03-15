@@ -18,5 +18,5 @@ interface ReadOperationInterface
     /**
      * @throws CouldNotReadException
      */
-    public function get(array $bind): DataObjectInterface;
+    public function get(array $bind, array $query = []): DataObjectInterface;
 }

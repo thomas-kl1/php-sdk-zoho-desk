@@ -47,10 +47,10 @@ final class ReadOperation implements ReadOperationInterface
         $this->arguments = $arguments;
     }
 
-    public function get(array $bind): DataObjectInterface
+    public function get(array $bind, array $query = []): DataObjectInterface
     {
         try {
-            return $this->dataObjectFactory->create($this->entityType, $this->fetchEntity($bind)->getResult());
+            return $this->dataObjectFactory->create($this->entityType, $this->fetchEntity($bind, $query)->getResult());
         } catch (InvalidArgumentException $e) {
             throw new CouldNotReadException($e->getMessage(), $e->getCode(), $e);
         } catch (InvalidRequestException $e) {
@@ -65,12 +65,13 @@ final class ReadOperation implements ReadOperationInterface
      * @throws InvalidArgumentException
      * @throws InvalidRequestException
      */
-    private function fetchEntity(array $bind = []): ResponseInterface
+    private function fetchEntity(array $bind = [], array $query = []): ResponseInterface
     {
         return $this->requestBuilder
             ->setPath($this->path ?? $this->entityType, $bind)
             ->setMethod(RequestBuilder::HTTP_GET)
             ->setArguments($this->path ? $this->arguments : array_merge([reset($bind)], $this->arguments))
+            ->setQueryParameters($query)
             ->create()
             ->execute();
     }
