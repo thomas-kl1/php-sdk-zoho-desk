@@ -5,21 +5,17 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Exception\CouldNotDeleteException;
 
 /**
  * @api
- * @deprecated
- * @see \Zoho\Desk\Service\DeleteOperationInterface
  */
 interface DeleteOperationInterface
 {
     /**
-     * @param int $entityId
-     * @return void
      * @throws CouldNotDeleteException
      */
-    public function delete(int $entityId): void;
+    public function delete(array $bind): void;
 }

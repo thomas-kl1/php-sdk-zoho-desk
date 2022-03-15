@@ -18,6 +18,10 @@ use Zoho\Desk\Model\DataObjectInterface;
 use function array_merge;
 use function sprintf;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\UpdateOperation
+ */
 final class UpdateOperation implements UpdateOperationInterface
 {
     private RequestBuilder $requestBuilder;

@@ -16,6 +16,10 @@ use Zoho\Desk\Exception\InvalidRequestException;
 use Zoho\Desk\Model\DataObjectFactory;
 use Zoho\Desk\Model\DataObjectInterface;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\CreateOperation
+ */
 final class CreateOperation implements CreateOperationInterface
 {
     private RequestBuilder $requestBuilder;

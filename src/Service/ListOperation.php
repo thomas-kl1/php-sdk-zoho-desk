@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Client\RequestBuilder;
 use Zoho\Desk\Client\ResponseInterface;
@@ -15,19 +15,19 @@ use Zoho\Desk\Exception\InvalidArgumentException;
 use Zoho\Desk\Exception\InvalidRequestException;
 use Zoho\Desk\Model\DataObjectFactory;
 use Zoho\Desk\Model\DataObjectInterface;
+use Zoho\Desk\Model\ListCriteriaInterface;
 use function array_merge;
+use function is_array;
 
-/**
- * @deprecated
- * @see \Zoho\Desk\Service\ReadOperation
- */
-final class ReadOperation implements ReadOperationInterface
+final class ListOperation implements ListOperationInterface
 {
     private RequestBuilder $requestBuilder;
 
     private DataObjectFactory $dataObjectFactory;
 
     private string $entityType;
+
+    private ?string $path;
 
     /**
      * @var string[]
@@ -38,40 +38,61 @@ final class ReadOperation implements ReadOperationInterface
         RequestBuilder $requestBuilder,
         DataObjectFactory $dataObjectFactory,
         string $entityType,
+        ?string $path = null,
         array $arguments = []
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entityType = $entityType;
+        $this->path = $path;
         $this->arguments = $arguments;
     }
 
-    public function get(int $entityId): DataObjectInterface
+    public function getList(ListCriteriaInterface $listCriteria, array $bind = []): array
     {
+        $arguments = $listCriteria->getFilters() ? array_merge(['search'], $this->arguments) : $this->arguments;
+
         try {
-            return $this->dataObjectFactory->create($this->entityType, $this->fetchEntity($entityId)->getResult());
+            $response = $this->fetchResult($arguments, $listCriteria->getQueryParams(), $bind);
         } catch (InvalidArgumentException $e) {
             throw new CouldNotReadException($e->getMessage(), $e->getCode(), $e);
         } catch (InvalidRequestException $e) {
             throw new CouldNotReadException($e->getMessage(), $e->getCode(), $e);
         } catch (Exception $e) {
-            throw new CouldNotReadException('Could not fetch the entity.', $e->getCode(), $e);
+            throw new CouldNotReadException('Could not fetch the entities.', $e->getCode(), $e);
         }
+
+        return $this->buildEntities($response);
     }
 
     /**
-     * @param int $entityId
-     * @return ResponseInterface
+     * @return DataObjectInterface[]
+     */
+    private function buildEntities(ResponseInterface $response): array
+    {
+        $entities = [];
+        $result = $response->getResult();
+        if (isset($result['data']) && is_array($result['data'])) {
+            foreach ($result['data'] as $entity) {
+                $entities[] = $this->dataObjectFactory->create($this->entityType, $entity);
+            }
+        }
+
+        return $entities;
+    }
+
+    /**
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws InvalidRequestException
      */
-    private function fetchEntity(int $entityId): ResponseInterface
+    private function fetchResult(array $arguments, array $params = [], array $bind = []): ResponseInterface
     {
         return $this->requestBuilder
-            ->setEntityType($this->entityType)
+            ->setPath($this->path ?? $this->entityType, $bind)
             ->setMethod(RequestBuilder::HTTP_GET)
-            ->setArguments(array_merge([$entityId], $this->arguments))
+            ->setArguments($arguments)
+            ->setQueryParameters($params)
             ->create()
             ->execute();
     }

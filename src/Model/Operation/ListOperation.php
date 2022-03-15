@@ -20,6 +20,10 @@ use function array_merge;
 use function implode;
 use function is_array;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\ListOperation
+ */
 final class ListOperation implements ListOperationInterface
 {
     private RequestBuilder $requestBuilder;

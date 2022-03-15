@@ -12,6 +12,8 @@ use Zoho\Desk\Model\DataObjectInterface;
 
 /**
  * @api
+ * @deprecated
+ * @see \Zoho\Desk\Service\CreateOperationInterface
  */
 interface CreateOperationInterface
 {

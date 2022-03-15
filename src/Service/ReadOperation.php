@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Zoho\Desk\Model\Operation;
+namespace Zoho\Desk\Service;
 
 use Zoho\Desk\Client\RequestBuilder;
 use Zoho\Desk\Client\ResponseInterface;
@@ -16,11 +16,8 @@ use Zoho\Desk\Exception\InvalidRequestException;
 use Zoho\Desk\Model\DataObjectFactory;
 use Zoho\Desk\Model\DataObjectInterface;
 use function array_merge;
+use function reset;
 
-/**
- * @deprecated
- * @see \Zoho\Desk\Service\ReadOperation
- */
 final class ReadOperation implements ReadOperationInterface
 {
     private RequestBuilder $requestBuilder;
@@ -28,6 +25,8 @@ final class ReadOperation implements ReadOperationInterface
     private DataObjectFactory $dataObjectFactory;
 
     private string $entityType;
+
+    private ?string $path;
 
     /**
      * @var string[]
@@ -38,18 +37,20 @@ final class ReadOperation implements ReadOperationInterface
         RequestBuilder $requestBuilder,
         DataObjectFactory $dataObjectFactory,
         string $entityType,
+        ?string $path = null,
         array $arguments = []
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entityType = $entityType;
+        $this->path = $path;
         $this->arguments = $arguments;
     }
 
-    public function get(int $entityId): DataObjectInterface
+    public function get(array $bind, array $query = []): DataObjectInterface
     {
         try {
-            return $this->dataObjectFactory->create($this->entityType, $this->fetchEntity($entityId)->getResult());
+            return $this->dataObjectFactory->create($this->entityType, $this->fetchEntity($bind, $query)->getResult());
         } catch (InvalidArgumentException $e) {
             throw new CouldNotReadException($e->getMessage(), $e->getCode(), $e);
         } catch (InvalidRequestException $e) {
@@ -60,18 +61,17 @@ final class ReadOperation implements ReadOperationInterface
     }
 
     /**
-     * @param int $entityId
-     * @return ResponseInterface
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws InvalidRequestException
      */
-    private function fetchEntity(int $entityId): ResponseInterface
+    private function fetchEntity(array $bind = [], array $query = []): ResponseInterface
     {
         return $this->requestBuilder
-            ->setEntityType($this->entityType)
+            ->setPath($this->path ?? $this->entityType, $bind)
             ->setMethod(RequestBuilder::HTTP_GET)
-            ->setArguments(array_merge([$entityId], $this->arguments))
+            ->setArguments($this->path ? $this->arguments : array_merge([reset($bind)], $this->arguments))
+            ->setQueryParameters($query)
             ->create()
             ->execute();
     }
