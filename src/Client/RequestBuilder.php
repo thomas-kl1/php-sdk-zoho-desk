@@ -118,7 +118,11 @@ final class RequestBuilder
 
         if ($this->data['method'] !== self::HTTP_GET) {
             curl_setopt($this->curl, CURLOPT_POST, true);
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($this->data['fields']));
+            if ($this->isMultipart()) {
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->data['fields']);
+            } else {
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($this->data['fields']));
+            }
         }
 
         $request = new Request($this->curl);
@@ -137,7 +141,7 @@ final class RequestBuilder
     {
         $headers = [
             ZohoOAuthConstants::AUTHORIZATION . ':' . ZohoOAuthConstants::OAUTH_HEADER_PREFIX . $this->client->getAccessToken(),
-            'Content-Type:application/json'
+            'Content-Type: ' . ($this->isMultipart() ? 'multipart/form-data' : 'application/json'),
         ];
 
         if ($this->client->getOrgId()) {
@@ -145,6 +149,10 @@ final class RequestBuilder
         }
 
         return $headers;
+    }
+
+    private function isMultipart() {
+        return isset($this->data['fields']['file']) && $this->data['fields']['file'] instanceof \CURLFile;
     }
 
     private function buildUrl(): string
