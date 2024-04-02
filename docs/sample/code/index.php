@@ -34,6 +34,7 @@ $configBuilder->setClientId(/* Client ID */)
 
 $config = $configBuilder->create();
 $gateway = new Gateway($config);
+$serviceFactory = $gateway->getServiceFactory();
 
 // Optional: if you need to register the token first
 // ZohoOAuth::initialize($config->get());
@@ -42,36 +43,41 @@ $gateway = new Gateway($config);
 /** CRUD Operations **/
 
 $ticketDataObject = $gateway->getDataObjectFactory()->create('tickets', /* Entity values */);
+$threadDataObject = $gateway->getDataObjectFactory()->create('threads', /* Entity values */);
 
 try {
-    $ticketDataObject = $gateway->getOperationPool()->getCreateOperation('tickets')->create($ticketDataObject);
+    $ticketDataObject = $serviceFactory->createOperation('tickets')->create($ticketDataObject);
+    $threadDataObject = $serviceFactory->createOperation('threads', 'tickets/{ticket_id}/threads')->create($threadDataObject, ['ticket_id' => $ticketDataObject->getEntityId()]);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->getOperationPool()->getReadOperation('tickets')->get(1234);
+    $ticketDataObject = $serviceFactory->readOperation('tickets')->get([1234]);
+    $threadDataObject = $serviceFactory->readOperation('threads', 'tickets/{ticket_id}/threads/{thread_id}')->get(['ticket_id' => 1234, 'thread_id' => 1234]);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
     $criteriaBuilder = new ListCriteriaBuilder();
-    // $criteriaBuilder->setFields()->setFilters()...
-    $ticketList = $gateway->getOperationPool()->getListOperation('tickets')->getList($criteriaBuilder->create());
-    $ticketList = $gateway->getOperationPool()->getListOperation('tickets')->getByIds([1,2,3]);
+    // $criteriaBuilder->setFields(...)->setFilters(...)...
+    $ticketList = $serviceFactory->listOperation('tickets')->getList($criteriaBuilder->create());
+    $threadList = $serviceFactory->listOperation('threads', 'tickets/{ticket_id}/threads')->getList($criteriaBuilder->create(), ['ticket_id' => 1234]);
 } catch (CouldNotReadException $e) {
     // Handle the exception...
 }
 
 try {
-    $ticketDataObject = $gateway->getOperationPool()->getUpdateOperation('tickets')->update($ticketDataObject);
+    $ticketDataObject = $serviceFactory->updateOperation('tickets')->update($ticketDataObject);
+    $ticketDataObject = $serviceFactory->updateOperation('threads', 'tickets/{ticket_id}/threads/{thread_id}')->update($threadDataObject, ['ticket_id' => 1234, 'thread_id' => $threadDataObject->getEntityId()]);
 } catch (CouldNotSaveException $e) {
     // Handle the exception...
 }
 
 try {
-    $gateway->getOperationPool()->getDeleteOperation('tickets', ['resolution'])->delete(1234);
+    $serviceFactory->deleteOperation('tickets', null, ['resolution'])->delete([1234]);
+    $serviceFactory->deleteOperation('threads', 'tickets/{ticket_id}/threads/{thread_id}')->delete(['ticket_id' => 1234, 'thread_id' => 1234]);
 } catch (CouldNotDeleteException $e) {
     // Handle the exception...
 }

@@ -18,9 +18,14 @@ use Zoho\Desk\Model\Operation\ReadOperation;
 use Zoho\Desk\Model\Operation\ReadOperationInterface;
 use Zoho\Desk\Model\Operation\UpdateOperation;
 use Zoho\Desk\Model\Operation\UpdateOperationInterface;
+
 use function implode;
 use function md5;
 
+/**
+ * @deprecated
+ * @see \Zoho\Desk\Service\ServiceFactory
+ */
 final class OperationPool
 {
     private RequestBuilder $requestBuilder;

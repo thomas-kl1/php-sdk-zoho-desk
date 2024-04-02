@@ -12,7 +12,11 @@ use Zoho\Desk\Api\Metadata;
 use Zoho\Desk\Exception\Exception;
 use Zoho\Desk\Exception\InvalidArgumentException;
 use Zoho\Desk\OAuth\ClientInterface;
+
+use function array_keys;
+use function array_map;
 use function array_merge;
+use function array_values;
 use function curl_init;
 use function curl_setopt;
 use function http_build_query;
@@ -20,6 +24,8 @@ use function is_array;
 use function is_numeric;
 use function json_encode;
 use function sprintf;
+use function str_replace;
+
 use const CURLOPT_CUSTOMREQUEST;
 use const CURLOPT_HEADER;
 use const CURLOPT_HTTPHEADER;
@@ -35,7 +41,7 @@ final class RequestBuilder
     public const HTTP_PATCH = 'PATCH';
     public const HTTP_DELETE = 'DELETE';
 
-    private const MANDATORY_FIELDS = ['entityType', 'method'];
+    private const MANDATORY_FIELDS = ['path', 'method'];
 
     private ClientInterface $client;
 
@@ -61,9 +67,23 @@ final class RequestBuilder
         $this->data = [];
     }
 
+    /**
+     * @deprecated
+     */
     public function setEntityType(string $entityType): self
     {
-        $this->data['entityType'] = $entityType;
+        $this->data['path'] = $entityType;
+
+        return $this;
+    }
+
+    public function setPath(string $path, array $bind = []): self
+    {
+        $search = array_map(static function (string $variable): string {
+            return '{' . $variable . '}';
+        }, array_keys($bind));
+
+        $this->data['path'] = str_replace($search, array_values($bind), $path);
 
         return $this;
     }
@@ -161,7 +181,7 @@ final class RequestBuilder
             'https://%s/%s/%s',
             $this->client->getApiBaseUrl(),
             $this->client->getApiVersion(),
-            $this->data['entityType']
+            $this->data['path']
         );
 
         if (isset($this->data['arguments']) && is_array($this->data['arguments'])) {
